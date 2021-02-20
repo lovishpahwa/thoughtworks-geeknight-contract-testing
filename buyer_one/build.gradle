@@ -26,7 +26,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation "org.springframework.boot:spring-boot-starter-test"
 	testCompile "org.springframework.boot:spring-boot-starter-test"
 	testImplementation 'io.projectreactor:reactor-test'
     implementation 'junit:junit:4.12'

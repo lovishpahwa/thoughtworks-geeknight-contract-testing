@@ -1,0 +1,42 @@
+sourceSets {
+    consumerPactsGenerate {
+        java.srcDir file('src/consumer-contract-test/java')
+        resources.srcDir file('src/consumer-contract-test/resources')
+        resources.srcDir file('src/JSONRequestResponseFiles')
+        compileClasspath += sourceSets.main.output + configurations.testRuntime
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+configurations {
+    contractTestImplementation.extendsFrom implementation
+}
+
+dependencies {
+    consumerPactsGenerateImplementation 'junit:junit:4.12'
+    testCompile("au.com.dius:pact-jvm-consumer-junit_2.12:3.6.1")
+
+    consumerPactsGenerateImplementation "org.projectlombok:lombok:1.16.20"
+    consumerPactsGenerateAnnotationProcessor "org.projectlombok:lombok:1.16.20"
+}
+
+task generatePacts(type: Test) {
+    description = 'Runs contract tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.consumerPactsGenerate.output.classesDirs
+    classpath = sourceSets.consumerPactsGenerate.runtimeClasspath
+    testLogging {
+        exceptionFormat = 'full'
+    }
+    systemProperties['pact.rootDir'] = "$buildDir/pacts"
+
+    exclude '**/provider/*'
+}
+
+pact {
+    publish {
+        pactDirectory = "$buildDir/pacts"
+        pactBrokerUrl = 'http://localhost:9292/'
+    }
+
+}

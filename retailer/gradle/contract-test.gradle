@@ -1,0 +1,40 @@
+sourceSets {
+    contractTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/contract-test/java')
+        }
+        resources.srcDir file('src/contract-test/resources')
+    }
+}
+
+configurations {
+    contractImplementation.extendsFrom implementation
+    contractTestImplementation.extendsFrom testImplementation
+}
+
+dependencies {
+    contractTestCompileOnly("au.com.dius:pact-jvm-provider-spring_2.12:3.5.24")
+    contractTestCompileOnly("au.com.dius:pact-jvm-provider-junit_2.12:3.5.24")
+    contractTestRuntimeOnly("au.com.dius:pact-jvm-provider-spring_2.12:3.5.24")
+    contractTestRuntimeOnly("au.com.dius:pact-jvm-provider-junit_2.12:3.5.24")
+}
+
+task contractTest(type: Test) {
+    testClassesDirs = sourceSets.contractTest.output.classesDirs
+    classpath = sourceSets.contractTest.runtimeClasspath
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+    systemProperty 'pact.rootDir', "$buildDir/pacts"
+    systemProperty 'pact.verifier.publishResults', 'true'
+}
+
+pact {
+    publish {
+        pactDirectory = "$buildDir/pacts"
+        pactBrokerUrl = 'http://localhost:9292/'
+    }
+
+}
