@@ -23,7 +23,7 @@ public class ControllerPactOne {
   @TestTarget
   public Target target = new SpringBootHttpTarget();
 
-  @State("test GET lastUpdatedTimestamp")
+  @State("GET Retailer details")
   public void testGetConsumerOne(){
 
   }

@@ -23,7 +23,7 @@ public class ControllerPactTwo {
   @TestTarget
   public Target target = new SpringBootHttpTarget();
 
-  @State("test GET string")
+  @State("GET Retailer details")
   public void testGetConsumerTwo(){
 
   }
