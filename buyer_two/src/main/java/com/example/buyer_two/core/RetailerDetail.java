@@ -1,4 +1,4 @@
-package com.example.retailer;
+package com.example.buyer_two.core;
 
 public class RetailerDetail {
     private String name;
@@ -29,4 +29,3 @@ public class RetailerDetail {
         this.type = type;
     }
 }
-

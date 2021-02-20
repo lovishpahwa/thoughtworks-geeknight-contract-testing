@@ -1,4 +1,4 @@
-package com.example.buyer_one;
+package com.example.buyer_two.pact.consumer;
 
 import au.com.dius.pact.consumer.Pact;
 import au.com.dius.pact.consumer.PactProviderRuleMk2;
@@ -6,6 +6,8 @@ import au.com.dius.pact.consumer.PactVerification;
 import au.com.dius.pact.consumer.dsl.PactDslRootValue;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.model.RequestResponsePact;
+import com.example.buyer_two.core.BuyerTwoService;
+import com.example.buyer_two.core.RetailerDetail;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Rule;
@@ -24,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class retailerPact {
+public class RetailerContractTests {
 
   private static final String HOST_NAME = "localhost";
   private static final int PORT = 8088;
@@ -33,13 +35,13 @@ public class retailerPact {
   private ObjectMapper objectMapper;
 
   @Autowired
-  private BuyerOneService buyerOneService;
+  private BuyerTwoService buyerTwoService;
 
   @Rule
   public PactProviderRuleMk2 mockProvider = new PactProviderRuleMk2("retailer",
       HOST_NAME, PORT, this);
 
-  @Pact(consumer = "buyer_one")
+  @Pact(consumer = "buyer_two")
   public RequestResponsePact createPactForGetLastUpdatedTimestamp(PactDslWithProvider builder)
       throws JsonProcessingException {
 
@@ -67,7 +69,7 @@ public class retailerPact {
   @Test
   @PactVerification(value = "retailer", fragment = "createPactForGetLastUpdatedTimestamp")
   public void testConsumerGetRequestToOffsetService() {
-    RetailerDetail retailerDetail = buyerOneService.getRetailerDetail();
+    RetailerDetail retailerDetail = buyerTwoService.getRetailerDetail();
 
     assertEquals(retailerDetail.getName(), "Parle");
   }

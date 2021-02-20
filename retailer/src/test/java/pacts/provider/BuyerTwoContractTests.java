@@ -1,4 +1,4 @@
-package com.example.retailer;
+package pacts.provider;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -16,15 +16,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 @RunWith(SpringRestPactRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Provider("retailer")
-@Consumer("buyer_one")
+@Consumer("buyer_two")
 @PactBroker(host = "localhost",port = "9292")
-public class ControllerPactOne {
+public class BuyerTwoContractTests {
 
   @TestTarget
   public Target target = new SpringBootHttpTarget();
 
-  @State("GET Retailer details")
-  public void testGetConsumerOne(){
+  @State("GET order details")
+  public void testGetConsumerTwo(){
 
   }
 }

@@ -7,15 +7,13 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
 
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
 }
-
-apply from: "$rootDir/gradle/contract-test.gradle"
 
 repositories {
 	mavenCentral()
@@ -29,8 +27,18 @@ dependencies {
 	testCompile "org.springframework.boot:spring-boot-starter-test"
 	testImplementation 'io.projectreactor:reactor-test'
     implementation 'junit:junit:4.12'
+	testImplementation("au.com.dius:pact-jvm-consumer-junit_2.11:3.5.24")
+	testImplementation("au.com.dius:pact-jvm-consumer-junit_2.11:3.5.24")
 }
 
 test {
 	useJUnitPlatform()
+}
+
+pact {
+	publish {
+//        pactDirectory = "$buildDir/pacts"
+		pactBrokerUrl = 'http://localhost:9292/'
+	}
+
 }

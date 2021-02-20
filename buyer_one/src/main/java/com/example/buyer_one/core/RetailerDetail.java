@@ -1,4 +1,4 @@
-package com.example.buyer_one;
+package com.example.buyer_one.core;
 
 public class RetailerDetail {
     private String name;
