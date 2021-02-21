@@ -37,7 +37,7 @@ test {
 
 pact {
 	publish {
-//        pactDirectory = "$buildDir/pacts"
+        pactDirectory = "target/pacts"
 		pactBrokerUrl = 'http://localhost:9292/'
 	}
 

@@ -8,7 +8,7 @@ import java.util.Date;
 public class RetailerService {
 
     public Item getItemDetails(String itemId) {
-        return new Item("Apple", "iPad air", 100.0);
+        return new Item("Apple", "iPhone", 1000.0);
     }
 
     public Order getOrderDetails(String orderId) {

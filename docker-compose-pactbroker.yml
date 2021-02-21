@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  postgres:
+  pact-broker-postgres:
     image: postgres
     healthcheck:
       test: psql postgres --command "select 1" -U postgres
@@ -20,11 +20,12 @@ services:
     ports:
       - "9292:9292"
     depends_on:
-      - postgres
+      - pact-broker-postgres
     environment:
-      PACT_BROKER_PORT: '9292'
-      PACT_BROKER_DATABASE_URL: "postgres://postgres:password@postgres/postgres"
-      PACT_BROKER_LOG_LEVEL: INFO
-      PACT_BROKER_SQL_LOG_LEVEL: DEBUG
+      PACT_BROKER_DATABASE_USERNAME: postgres
+      PACT_BROKER_DATABASE_PASSWORD: password
+      PACT_BROKER_DATABASE_HOST: pact-broker-postgres
+      PACT_BROKER_DATABASE_NAME: postgres
+      PACT_BROKER_LOG_LEVEL: DEBUG
 volumes:
   postgres-volume:

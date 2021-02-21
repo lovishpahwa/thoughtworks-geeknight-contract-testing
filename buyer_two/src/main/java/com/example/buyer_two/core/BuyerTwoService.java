@@ -5,7 +5,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class BuyerTwoService {
-    public RetailerDetail getRetailerDetail() {
-        return new RestTemplate().getForObject("http://localhost:8088/retailer-details", RetailerDetail.class);
+    public Order getOrderDetails() {
+        return new RestTemplate().getForObject("http://localhost:8088/order/79", Order.class);
     }
 }

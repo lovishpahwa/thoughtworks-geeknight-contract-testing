@@ -34,3 +34,10 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+pact {
+	publish {
+        pactDirectory = "target/pacts"
+		pactBrokerUrl = 'http://localhost:9292/'
+	}
+}

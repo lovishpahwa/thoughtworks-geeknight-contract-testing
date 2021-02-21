@@ -7,7 +7,7 @@ import au.com.dius.pact.consumer.dsl.PactDslRootValue;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.model.RequestResponsePact;
 import com.example.buyer_two.core.BuyerTwoService;
-import com.example.buyer_two.core.RetailerDetail;
+import com.example.buyer_two.core.Order;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Rule;
@@ -19,6 +19,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,19 +46,19 @@ public class RetailerContractTests {
   public RequestResponsePact createPactForGetLastUpdatedTimestamp(PactDslWithProvider builder)
       throws JsonProcessingException {
 
-    RetailerDetail retailerDetail = new RetailerDetail("Parle", "Food");
-    String retailerDetailsString = objectMapper.writeValueAsString(retailerDetail);
+    Order order = new Order("John", 2000.0, 3, new Date());
+    String orderDetailsString = objectMapper.writeValueAsString(order);
 
     PactDslRootValue pactDslResponse = new PactDslRootValue();
-    pactDslResponse.setValue(retailerDetailsString);
+    pactDslResponse.setValue(orderDetailsString);
 
     Map<String,String> headers = new HashMap();
     headers.put("Content-Type","application/json");
 
     return builder
-        .given("GET Retailer details")
-        .uponReceiving("GET request for retailerDetails")
-        .path("/retailer-details")
+        .given("Get order details")
+        .uponReceiving("Get order details by order id")
+        .path("/order/79")
         .method(HttpMethod.GET.name())
         .willRespondWith()
         .status(HttpStatus.OK.value())
@@ -69,9 +70,8 @@ public class RetailerContractTests {
   @Test
   @PactVerification(value = "retailer", fragment = "createPactForGetLastUpdatedTimestamp")
   public void testConsumerGetRequestToOffsetService() {
-    RetailerDetail retailerDetail = buyerTwoService.getRetailerDetail();
-
-    assertEquals(retailerDetail.getName(), "Parle");
+    Order order = buyerTwoService.getOrderDetails();
+    assertEquals(order.getCustomer(), "John");
   }
 
 }

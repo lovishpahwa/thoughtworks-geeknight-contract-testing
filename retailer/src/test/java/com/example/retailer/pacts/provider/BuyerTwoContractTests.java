@@ -16,15 +16,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 @RunWith(SpringRestPactRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Provider("retailer")
-@Consumer("buyer_one")
+@Consumer("buyer_two")
 @PactBroker(host = "localhost",port = "9292")
-public class BuyerOneContractTests {
+public class BuyerTwoContractTests {
 
   @TestTarget
   public Target target = new SpringBootHttpTarget();
 
-  @State("GET item details")
-  public void testBuyerOneContract(){
+  @State("Get order details")
+  public void testGetConsumerTwo(){
 
   }
 }
