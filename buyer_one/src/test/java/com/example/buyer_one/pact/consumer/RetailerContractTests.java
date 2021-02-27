@@ -3,13 +3,11 @@ package com.example.buyer_one.pact.consumer;
 import au.com.dius.pact.consumer.Pact;
 import au.com.dius.pact.consumer.PactProviderRuleMk2;
 import au.com.dius.pact.consumer.PactVerification;
-import au.com.dius.pact.consumer.dsl.PactDslRootValue;
+import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.model.RequestResponsePact;
 import com.example.buyer_one.core.BuyerOneService;
 import com.example.buyer_one.core.Item;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,9 +30,6 @@ public class RetailerContractTests {
   private static final int PORT = 8088;
 
   @Autowired
-  private ObjectMapper objectMapper;
-
-  @Autowired
   private BuyerOneService buyerOneService;
 
   @Rule
@@ -42,14 +37,12 @@ public class RetailerContractTests {
       HOST_NAME, PORT, this);
 
   @Pact(consumer = "buyer_one")
-  public RequestResponsePact createPactForGetLastUpdatedTimestamp(PactDslWithProvider builder)
-      throws JsonProcessingException {
+  public RequestResponsePact createPactForGetLastUpdatedTimestamp(PactDslWithProvider builder) {
 
-    Item item = new Item("Apple", "iPhone", 1000.0);
-    String itemDetails = objectMapper.writeValueAsString(item);
-
-    PactDslRootValue pactDslResponse = new PactDslRootValue();
-    pactDslResponse.setValue(itemDetails);
+    PactDslJsonBody body = new PactDslJsonBody()
+            .stringType("brand", "Apple")
+            .stringType("name", "iPhone")
+            .decimalType("price", 1000.0);
 
     Map<String,String> headers = new HashMap();
     headers.put("Content-Type","application/json");
@@ -62,13 +55,13 @@ public class RetailerContractTests {
         .willRespondWith()
         .status(HttpStatus.OK.value())
         .headers(headers)
-        .body(pactDslResponse)
+        .body(body)
         .toPact();
   }
 
   @Test
-  @PactVerification(value = "retailer", fragment = "createPactForGetLastUpdatedTimestamp")
-  public void testConsumerGetRequestToOffsetService() {
+  @PactVerification(value = "retailer")
+  public void testGetItemDetailsFromRetailer() {
     Item item = buyerOneService.getItemDetail();
     assertEquals(item.getName(), "iPhone");
   }
