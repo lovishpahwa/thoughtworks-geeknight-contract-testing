@@ -1,7 +1,5 @@
 package com.example.retailer.core;
 
-import java.util.Date;
-
 public class Order {
     private String customer;
     private Double total;

@@ -36,7 +36,7 @@ public class RetailerContractTests {
   public PactProviderRuleMk2 mockProvider = new PactProviderRuleMk2("retailer",
       HOST_NAME, PORT, this);
 
-  @Pact(consumer = "customer")
+  @Pact(consumer = "customer", provider = "retailer")
   public RequestResponsePact createPactForGetLastUpdatedTimestamp(PactDslWithProvider builder) {
     PactDslJsonBody body = new PactDslJsonBody()
             .stringType("customer", "John")

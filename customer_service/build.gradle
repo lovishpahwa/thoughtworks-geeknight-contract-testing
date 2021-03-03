@@ -28,7 +28,6 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
     implementation 'junit:junit:4.12'
 	testImplementation("au.com.dius:pact-jvm-consumer-junit_2.11:3.5.24")
-	testImplementation("au.com.dius:pact-jvm-consumer-junit_2.11:3.5.24")
 }
 
 test {
